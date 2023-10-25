@@ -1,4 +1,4 @@
-let token = '6777283312:AAHC9MbPJJf_sH44hKBKwdIHKtk9LkF4voM';
+let token = 'YOUR BOT TOCKEN';
 
 let TelegramBot = require('node-telegram-bot-api');
 
