@@ -7,8 +7,9 @@ let TelegramBot = require('node-telegram-bot-api');
 let bot = new TelegramBot(token, { polling: true});
 
 let axios = require('axios');
-const formatTemperature = require('./format-temperature');
-const getWeatherEmoji = require('./get-weather-emoji');
+
+let formatWeather = require('./format-weather');
+let formatCurrentWeather = require('./format-current-weather');
 
 bot.on('message', async (msg) => {
   let response;
@@ -26,17 +27,16 @@ bot.on('message', async (msg) => {
 })
 
 async function getWeatherByInterval(interval) {
-  let responseString = '';
   let weather = await axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?lat=47.3769&lon=8.5417&appid=5824e56af6d67a4e0414071d9c431fad`
+    `https://api.openweathermap.org/data/2.5/weather?lat=47.3769&lon=8.5417&appid=${apiKey}`
   )
-  // let weather = await axios.get(
-  //   `https://api.open-meteo.com/v1/forecast?latitude=47.3769&longitude=8.5417&current_weather=true&hourly=temperature_2m&hourly=weathercode`
-  // );
-  weather = formatTemperature(weather.data);
-  weather = weather.filter((_, index) => (index + 1) % interval === 0);
-  responseString = weather.map((elem) => `${elem.time}: ${elem.temperature}°, ${getWeatherEmoji(elem.code)} ${elem.weather}`).join('\n');
-  return `Weather in Zurich:\n${responseString}`;
+  let weatherList = await axios.get(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=47.3769&lon=8.5417&appid=${apiKey}`
+  )
+  weatherList = weatherList.data.list.slice(0, 8);
+  if(interval === 6) weatherList = weatherList.filter((_, index) => index % 2 === 0);
+  weatherList = weatherList.map((elem) => formatWeather(elem))
+  return `Weather in Zurich:\nNow: ${formatCurrentWeather(weather.data)}\nWeather hourly:\n${weatherList.join('\n')}`;
 }
 
 async function sendHelpMessage() {

@@ -1,60 +1,36 @@
-module.exports = function(code) {
-  switch(code) {
-    case 0:
+module.exports = function(weatherMain) {
+  switch(weatherMain) {
+    case 'Clear':
       return `\u{00002600}`
-    case 1:
-      return `\u{000026C5}`
-    case 2:
+    case 'Clouds':
       return '\u{000026C5}'
-    case 3:
-      return `\u{00002601}`
-    case 45:
+    case 'Fog':
       return `\u{0001F300}`
-    case 48:
+    case 'Mist':
       return `\u{0001F300}`
-    case 51:
+    case 'Smoke':
+      return `\u{0001F300}`
+    case 'Haze':
+      return `\u{0001F300}`
+    case 'Dust':
+      return `\u{0001F300}`
+    case 'Sand':
+      return `\u{0001F300}`
+    case 'Dust':
+      return `\u{0001F300}`
+    case 'Ash':
+      return `\u{0001F300}`
+    case 'Squall':
+      return `\u{0001F300}`
+    case 'Tornado':
+      return `\u{0001F300}`
+    case 'Drizzle':
       return `\u{0001F4A7}`
-    case 53:
-      return `\u{0001F4A7}`
-    case 55:
-      return `\u{0001F4A7}`
-    case 56:
-      return `\u{00002744}`
-    case 57: 
-      return `\u{00002744}`
-    case 61:
+    case 'Rain':
       return `\u{00002614}`
-    case 63:
-      return `\u{00002614}`
-    case 65:
-      return `\u{00002614}`
-    case 66:
+    case 'Snow':
       return `\u{00002744}`
-    case 67:
-      return `\u{00002744}`
-    case 71:
-      return `\u{00002744}`
-    case 73:
-      return `\u{00002744}`
-    case 75:
-      return `\u{00002744}`
-    case 77:
-      return `\u{00002744}`
-    case 80:
-      return `\u{00002614}`
-    case 81:
-      return `\u{00002614}`
-    case 82:
-      return `\u{00002614}`
-    case 85:
-      return `\u{00002744}`
-    case 86:
-      return `\u{00002744}`
-    case 95:
-      return `\u{0001F4A8}`
-    case 96:
-      return `\u{0001F4A8}`
-    case 99:
+    case 'Thunderstorm':
       return `\u{0001F4A8}`
     default:
       return ``;
