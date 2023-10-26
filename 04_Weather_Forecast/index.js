@@ -1,4 +1,6 @@
-let token = 'YOUR BOT TOCKEN';
+let token = '6777283312:AAHC9MbPJJf_sH44hKBKwdIHKtk9LkF4voM';
+
+let apiKey = '5824e56af6d67a4e0414071d9c431fad';
 
 let TelegramBot = require('node-telegram-bot-api');
 
@@ -26,8 +28,11 @@ bot.on('message', async (msg) => {
 async function getWeatherByInterval(interval) {
   let responseString = '';
   let weather = await axios.get(
-    `https://api.open-meteo.com/v1/forecast?latitude=47.3769&longitude=8.5417&current_weather=true&hourly=temperature_2m&hourly=weathercode`
-  );
+    `https://api.openweathermap.org/data/2.5/weather?lat=47.3769&lon=8.5417&appid=5824e56af6d67a4e0414071d9c431fad`
+  )
+  // let weather = await axios.get(
+  //   `https://api.open-meteo.com/v1/forecast?latitude=47.3769&longitude=8.5417&current_weather=true&hourly=temperature_2m&hourly=weathercode`
+  // );
   weather = formatTemperature(weather.data);
   weather = weather.filter((_, index) => (index + 1) % interval === 0);
   responseString = weather.map((elem) => `${elem.time}: ${elem.temperature}°, ${getWeatherEmoji(elem.code)} ${elem.weather}`).join('\n');
