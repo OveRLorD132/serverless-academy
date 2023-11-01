@@ -1,10 +1,10 @@
 let TelegramBot = require('node-telegram-bot-api');
 
-let token = 'Your bot token';
+let fs = require('fs');
 
-let chat_id = 'Your chat id';
+let env = JSON.parse(fs.readFileSync('./env.json', 'utf-8'));
 
-let bot = new TelegramBot(token, { polling: true });
+let bot = new TelegramBot(env.telegram_bot_tocken, { polling: true });
 
 let { program } = require('commander');
 
@@ -12,14 +12,14 @@ program.command('send-message')
   .description('Send a message to Telegram')
   .argument('<string>', 'message to send')
   .action((str) =>  {
-    bot.sendMessage(chat_id, str).then(() => {process.exit(0)})  
+    bot.sendMessage(env.chat_id, str).then(() => {process.exit(0)})  
 })
 
 program.command('send-image')
   .description('Enter a path of image to load')
   .argument('<string>', 'message to send')
   .action(async (str) => {
-    bot.sendPhoto(chat_id, str).then(() => {process.exit(0)})
+    bot.sendPhoto(env.chat_id, str, {}, { contentType: "image/*"}).then(() => {process.exit(0)})
   })
 
 

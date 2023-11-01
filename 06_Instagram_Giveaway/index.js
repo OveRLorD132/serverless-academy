@@ -1,27 +1,26 @@
 let fs = require('fs/promises');
 
+let time = performance.now();
+
 getNames().then(async (namesObj) => {
-  let time = performance.now();
   console.log('Unique values in all files: ' + returnUniqueValues(namesObj));
-  console.log('Function runtime: ' + (performance.now() - time))
-  time = performance.now();
   console.log('Exist in all files: ' + existInAllFiles(namesObj));
-  console.log('Function runtime: ' + (performance.now() - time))
-  time = performance.now();
   console.log('Exist in at least 10 files: ' + existInTenFiles(namesObj));
-  console.log('Function runtime: ' + (performance.now() - time))
+  console.log('Functions runtime: ' + (performance.now() - time))
 })
 
 async function getNames() {
   let names = [];
-  let allFilesNames = [];
   for(let i = 0; i < 20; i++) {
-    let usersData = await fs.readFile(`./words/out${i}.txt`, 'utf-8')
-    usersData = usersData.split('\n');
-    allFilesNames = allFilesNames.concat(usersData);
-    names.push(new Set((usersData)));
+    names[i] = fs.readFile(`./words/out${i}.txt`, 'utf-8');
   }
-  allFilesNames = Array.from((new Set(allFilesNames)));
+  names = await Promise.all(names);
+  names = names.map((elem) => new Set(elem.split('\n')));
+  let allFilesNames = [];
+  names.forEach((arr) => {
+    allFilesNames = allFilesNames.concat(Array.from(arr));
+  })
+  allFilesNames = new Set(allFilesNames);
   return {
     allFilesNames,
     names
@@ -29,7 +28,7 @@ async function getNames() {
 }
 
 function returnUniqueValues(obj) {
-  return obj.allFilesNames.length;
+  return obj.allFilesNames.size;
 }
 
 function existInAllFiles(obj) {

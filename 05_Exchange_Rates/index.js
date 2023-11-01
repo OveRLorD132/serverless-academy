@@ -1,8 +1,10 @@
-let token = '6882549733:AAH5Q7HVCR-vhgnd634UBmIemY4mdh6AQ8o';
+let fs = require('fs');
+
+let env = JSON.parse(fs.readFileSync('./env.json', 'utf-8'));
 
 let TelegramBot = require('node-telegram-bot-api');
 
-let bot = new TelegramBot(token, { polling: true});
+let bot = new TelegramBot(env.bot_tocken, { polling: true});
 
 let axios = require('axios');
 
@@ -25,9 +27,7 @@ bot.on('message', async (msg) => {
     } catch(err) {
       eur = walletCache.get('EUR');
     }
-    response = `Current EUR-hryvna rate:
-    Buy: ${eur.rateBuy}
-    Sell: ${eur.rateSell}`
+    response = `Current EUR-hryvna rate:\nBuy: ${eur.rateBuy}\nSell: ${eur.rateSell}`
   }
   else if(/^usd$/i.test(msg.text)) {
     let usd;
@@ -43,9 +43,7 @@ bot.on('message', async (msg) => {
     } catch(err) {
       usd = walletCache.get('USD')
     }
-    response = `Current USD-hryvna rate:
-    Buy: ${usd.rateBuy}
-    Sell: ${usd.rateSell}`
+    response = `Current USD-hryvna rate:\nBuy: ${usd.rateBuy}\nSell: ${usd.rateSell}`
   }
   else response = `Type or click "USD" or "EUR" to get wallet rate.`
   bot.sendMessage(msg.chat.id, response, {

@@ -1,10 +1,10 @@
-let token = '6777283312:AAHC9MbPJJf_sH44hKBKwdIHKtk9LkF4voM';
+let fs = require('fs');
 
-let apiKey = '5824e56af6d67a4e0414071d9c431fad';
+let env = JSON.parse(fs.readFileSync('./env.json', 'utf-8'));
 
 let TelegramBot = require('node-telegram-bot-api');
 
-let bot = new TelegramBot(token, { polling: true});
+let bot = new TelegramBot(env.bot_tocken, { polling: true});
 
 let axios = require('axios');
 
@@ -28,10 +28,10 @@ bot.on('message', async (msg) => {
 
 async function getWeatherByInterval(interval) {
   let weather = await axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?lat=47.3769&lon=8.5417&appid=${apiKey}`
+    `https://api.openweathermap.org/data/2.5/weather?lat=47.3769&lon=8.5417&appid=${env.api_key}`
   )
   let weatherList = await axios.get(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=47.3769&lon=8.5417&appid=${apiKey}`
+    `https://api.openweathermap.org/data/2.5/forecast?lat=47.3769&lon=8.5417&appid=${env.api_key}`
   )
   weatherList = weatherList.data.list.slice(0, 8);
   if(interval === 6) weatherList = weatherList.filter((_, index) => index % 2 === 0);
