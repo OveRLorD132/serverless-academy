@@ -36,7 +36,7 @@ function beginSorting() {
       }
       switch (+num) {
         case 1:
-          console.log(words.sort());
+          console.log(words.sort((a, b) => a.localeCompare(b)));
           break;
         case 2:
           console.log(digits.sort((a, b) => a - b));
