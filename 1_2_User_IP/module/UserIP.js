@@ -4,7 +4,6 @@ let path = require('path');
 
 module.exports = class UserIP {
   constructor() {
-    console.log(__dirname);
     fs.readFile(path.join(__dirname, '..', "./ip-table/data.CSV"), "utf-8").then((lines) => {
       lines = new Set(lines.split("\r\n"));
       let countries = new Set();
